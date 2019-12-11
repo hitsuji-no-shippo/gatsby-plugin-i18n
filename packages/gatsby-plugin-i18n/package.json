@@ -1,6 +1,17 @@
 {
   "name": "@hitsuji_no_shippo/gatsby-plugin-i18n",
   "version": "0.1.0",
+  "files": [
+    "createPages.js",
+    "defaultOptions.js",
+    "gatsby-node.js",
+    "getLightweightMarkupPage.js",
+    "getNewPage.js",
+    "index.js",
+    "onCreateNode.js",
+    "onCreatePage.js",
+    "logError.js"
+  ],
   "description": "Multi language feature for Gatsby",
   "homepage": "https://github.com/hitsuji-no-shippo/gatsby-plugin-i18n/tree/add-support-for-other-lightweight-markup",
   "scripts": {
