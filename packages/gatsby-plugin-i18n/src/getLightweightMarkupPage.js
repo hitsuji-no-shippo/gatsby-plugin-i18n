@@ -1,11 +1,11 @@
 /**
- * Get page from markdownRemark
+ * Get page from lightweightMarkup
  * @param {*} options default options + user options
- * @param {*} postPage path.resolve(options.markdownRemark.postPage)
+ * @param {*} postPage path.resolve(options.lightweightMarkup.postPage)
  * @param {*} edge allMarkdownRemark.edges
  * @return {*} page
  */
-const getMarkdownPage = (options, postPage) => edge => {
+const getLightweightMarkupPage = (options, postPage) => edge => {
   const path = edge.node.fields.slug;
   const slug = edge.node.fields.slug;
   const langKey = edge.node.fields.langKey;
@@ -22,4 +22,4 @@ const getMarkdownPage = (options, postPage) => edge => {
   };
 };
 
-export default getMarkdownPage;
+export default getLightweightMarkupPage;

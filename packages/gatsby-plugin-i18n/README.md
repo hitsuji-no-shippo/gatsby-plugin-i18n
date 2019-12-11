@@ -68,7 +68,7 @@ Include the plugin in your `gatsby-config.js` file.
 plugins: [
   {
       resolve: 'gatsby-plugin-i18n',
-      options: {        
+      options: {  
         langKeyDefault: 'en',
         useLangKeyLayout: false
       }
@@ -82,10 +82,11 @@ plugins: [
 plugins: [
   {
       resolve: 'gatsby-plugin-i18n',
-      options: {        
+      options: {  
         langKeyDefault: 'en',
         useLangKeyLayout: false,
-        markdownRemark: {
+        lightweightMarkup: {
+          language: 'markdownRemark',
           postPage: 'src/templates/blog-post.js',
           query: `
           {
@@ -133,7 +134,7 @@ lanKey to use when no lanKey specified.
     plugins:{
       //... other plugins
       resolve: 'gatsby-plugin-i18n',
-        options: {        
+        options: {  
           //.. other options
           pagesPaths: [ '/my/custom/pages/folder1', /my/custom/pages/folder2/ ]
     }
@@ -149,8 +150,8 @@ lanKey to use when no lanKey specified.
     - `/pt/blog/first-post`
 
   Default: **true**
-     
-   
+  
+  
 ## Finally
 
 Go Gatsby!

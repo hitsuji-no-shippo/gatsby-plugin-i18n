@@ -1,17 +1,17 @@
 import defaultOptions from './defaultOptions';
 import { isInPagesPaths, getSlugAndLang } from 'ptz-i18n';
 import Result from 'folktale/result';
-import { isNil, chain } from 'ramda';
+import { isNil, chain, path } from 'ramda';
 
-const getValidFile = filePath => 
+const getValidFile = filePath =>
   isNil(filePath)
     ? Result.Error('No file name')
     : Result.Ok(filePath);
 
-const getFilePath = node => {
+const getFilePath = (node, makrupLanguage) => {
   switch(node.internal.type){
   case 'File': return getValidFile(node.absolutePath);
-  case 'MarkdownRemark': return getValidFile(node.fileAbsolutePath);
+  case makrupLanguage: return getValidFile(node.fileAbsolutePath);
   default: return Result.Error('Skiping file type: ' + node.internal.type);
   }
 };
@@ -30,7 +30,9 @@ const onCreateNode = ({ node, actions }, pluginOptions) => {
     ...pluginOptions
   };
 
-  return getFilePath(node)
+  const makrupLanguage = path(['lightweightMarkup', 'language'], options) || 'MarkdownRemark';
+
+  return getFilePath(node, makrupLanguage)
     .map(filePath =>
       chain(isInPaths => {
 
@@ -42,7 +44,7 @@ const onCreateNode = ({ node, actions }, pluginOptions) => {
 
         const { createNodeField } = actions;
 
-        if(node.internal.type === 'MarkdownRemark'){
+        if(node.internal.type === makrupLanguage) {
           createNodeField({
             node,
             name: 'langKey',
@@ -65,4 +67,3 @@ const onCreateNode = ({ node, actions }, pluginOptions) => {
 export {
   onCreateNode
 };
-

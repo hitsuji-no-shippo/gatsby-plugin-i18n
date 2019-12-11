@@ -1,13 +1,18 @@
 import defaultOptions from './defaultOptions';
 import logError from './logError';
 import path from 'path';
-import getMarkdownPage from './getMarkdownPage';
+import getLightweightMarkupPage from './getLightweightMarkupPage';
 import R from 'ramda';
 
 // Test git
 
 const createPages = (_, pluginOptions) => {
-  if (!pluginOptions.markdownRemark) {
+
+  if (!(
+    R.path(['lightweightMarkup'], pluginOptions) &&
+    R.path(['lightweightMarkup', 'query'], pluginOptions) &&
+    R.path(['lightweightMarkup', 'postPage'], pluginOptions)
+  )) {
     return null;
   }
 
@@ -20,18 +25,18 @@ const createPages = (_, pluginOptions) => {
   const { createPage } = actions;
 
   return new Promise((resolve, reject) => {
-    const postPage = path.resolve(options.markdownRemark.postPage);
+    const postPage = path.resolve(options.lightweightMarkup.postPage);
 
-    graphql(options.markdownRemark.query).then(result => {
+    graphql(options.lightweightMarkup.query).then(result => {
       try {
 
         if (result.errors) {
           throw result.errors;
         }
 
-        result.data.allMarkdownRemark.edges
+        result.data[`all` + options.lightweightMarkup.language].edges
           .filter(R.path(['node', 'fields', 'slug']))
-          .map(getMarkdownPage(options, postPage))
+          .map(getLightweightMarkupPage(options, postPage))
           .map(page => createPage(page));
 
         resolve();

@@ -1,12 +1,12 @@
-export default {  
+export default {
   langKeyForNull: 'any',
   langKeyDefault: 'en',
   useLangKeyLayout: false,
   pagesPaths: ['/src/pages/'],
   prefixDefault: true
   // Example of markdownRemark
-  // markdownRemark: {
-  //   postPage: 'src/templates/blog-post.js',
+  // lightweightMarkup: {
+  //   language: 'markdownRemark',
   //   query: `
   //     {
   //         allMarkdownRemark {

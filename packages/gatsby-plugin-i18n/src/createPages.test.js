@@ -51,7 +51,8 @@ describe('createPages', () => {
       createPage: () => { pagesCreated += 1; }
     };
     const pluginOptions = {
-      markdownRemark: {
+      lightweightMarkup: {
+        language: 'MarkdownRemark',
         postPage: 'src/templates/blog-post.js',
         query: `
         {
@@ -87,7 +88,8 @@ describe('createPages', () => {
     };
 
     const pluginOptions = {
-      markdownRemark: {
+      lightweightMarkup: {
+        language: 'MarkdownRemark',
         postPage: 'src/templates/blog-post.js',
         query: `
         {

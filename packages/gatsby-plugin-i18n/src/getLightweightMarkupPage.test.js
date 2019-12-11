@@ -1,7 +1,7 @@
 import * as assert from 'ptz-assert';
-import getMarkdownPage from './getMarkdownPage';
+import getLightweightMarkupPage from './getLightweightMarkupPage';
 
-describe('getMarkdownPage', () => {
+describe('getLightweightMarkupPage', () => {
   it('langKey: pt, useLangKeyLayout: true', () => {
     const options = {
       useLangKeyLayout: true
@@ -34,7 +34,7 @@ describe('getMarkdownPage', () => {
       path: slug
     };
 
-    const page = getMarkdownPage(options, postPage)(edge);
+    const page = getLightweightMarkupPage(options, postPage)(edge);
 
     assert.deepEqual(page, expectedPage);
   });
@@ -71,7 +71,7 @@ describe('getMarkdownPage', () => {
       path: slug
     };
 
-    const page = getMarkdownPage(options, postPage)(edge);
+    const page = getLightweightMarkupPage(options, postPage)(edge);
 
     assert.deepEqual(page, expectedPage);
   });
