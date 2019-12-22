@@ -10,9 +10,9 @@ const getValidFile = filePath =>
 
 const getFilePath = (node, makrupLanguage) => {
   switch(node.internal.type){
-  case 'File': return getValidFile(node.absolutePath);
-  case makrupLanguage: return getValidFile(node.fileAbsolutePath);
-  default: return Result.Error('Skiping file type: ' + node.internal.type);
+    case 'File': return getValidFile(node.absolutePath);
+    case makrupLanguage: return getValidFile(node.fileAbsolutePath);
+    default: return Result.Error('Skiping file type: ' + node.internal.type);
   }
 };
 
