@@ -8,10 +8,10 @@ const getValidFile = filePath =>
     ? Result.Error('No file name')
     : Result.Ok(filePath);
 
-const getFilePath = (node, makrupLanguage) => {
+const getFilePath = (node, makrupLanguage, fileAbsolutePathField) => {
   switch(node.internal.type){
     case 'File': return getValidFile(node.absolutePath);
-    case makrupLanguage: return getValidFile(node.fileAbsolutePath);
+    case makrupLanguage: return getValidFile(path(fileAbsolutePathField, node));
     default: return Result.Error('Skiping file type: ' + node.internal.type);
   }
 };
@@ -30,37 +30,41 @@ const onCreateNode = ({ node, actions }, pluginOptions) => {
     ...pluginOptions
   };
 
-  const makrupLanguage = path(['lightweightMarkup', 'language'], options) || 'MarkdownRemark';
+  const { lightweightMarkup } = options;
+  const makrupLanguage = lightweightMarkup.language || 'MarkdownRemark';
 
-  return getFilePath(node, makrupLanguage)
-    .map(filePath =>
-      chain(isInPaths => {
+  return getFilePath(
+    node,
+    makrupLanguage,
+    (lightweightMarkup.fileAbsolutePathField || 'fileAbsolutePath').split('.')
+  ).map(filePath =>
+    chain(isInPaths => {
 
-        if(isInPaths === false){
-          return 'Skipping page, not in pagesPaths';
-        }
+      if(isInPaths === false){
+        return 'Skipping page, not in pagesPaths';
+      }
 
-        const slugAndLang = getSlugAndLang(options, filePath);
+      const slugAndLang = getSlugAndLang(options, filePath);
 
-        const { createNodeField } = actions;
+      const { createNodeField } = actions;
 
-        if(node.internal.type === makrupLanguage) {
-          createNodeField({
-            node,
-            name: 'langKey',
-            value: slugAndLang.langKey
-          });
-        }
-
+      if(node.internal.type === makrupLanguage) {
         createNodeField({
           node,
-          name: 'slug',
-          value: slugAndLang.slug
+          name: 'langKey',
+          value: slugAndLang.langKey
         });
+      }
 
-        return 'langKey and slug added';
-      }, isInPagesPaths(options, filePath))
-    )
+      createNodeField({
+        node,
+        name: 'slug',
+        value: slugAndLang.slug
+      });
+
+      return 'langKey and slug added';
+    }, isInPagesPaths(options, filePath))
+  )
     .merge();
 };
 
